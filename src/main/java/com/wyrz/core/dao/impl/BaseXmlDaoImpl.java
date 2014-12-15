@@ -274,7 +274,8 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	public int updateById(T entity) {
 		try {
 			Assert.notNull(entity);
-			Assert.hasText(entity.getId());
+//			Assert.hasText(entity.getId());
+			Assert.notNull(entity.getId());
 			return this.writableSQLSession.update(getSqlName(SqlId.SQL_UPDATE_BY_ID), entity);
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据ID更新对象出错！语句：%s", getSqlName(SqlId.SQL_UPDATE_BY_ID)), e);
@@ -285,7 +286,8 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	public int updateByIdSelective(T entity) {
 		try {
 			Assert.notNull(entity);
-			Assert.hasText(entity.getId());
+//			Assert.hasText(entity.getId());
+			Assert.notNull(entity.getId());
 			return this.writableSQLSession.update(getSqlName(SqlId.SQL_UPDATE_BY_ID_SELECTIVE), entity);
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据ID更新对象某些属性出错！语句：%s", getSqlName(SqlId.SQL_UPDATE_BY_ID_SELECTIVE)),
