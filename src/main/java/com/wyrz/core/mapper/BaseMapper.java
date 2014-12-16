@@ -30,7 +30,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 结果对象，如果未找到返回null
 	 * @date 2014年12月9日下午2:28:05
 	 */
-	public <V extends T> V selectById(String id);
+	public <V extends T> V selectById(Integer id);
 
 	/**
 	 * 查询所有记录ID号列表
@@ -73,7 +73,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 结果列表
 	 * @date 2014年12月9日下午2:34:54
 	 */
-	public <V extends T> List<V> selectByIdList(List<String> idList);
+	public <V extends T> List<V> selectByIdList(List<Integer> idList);
 
 	/**
 	 * 根据结果集中的一列作为key，将结果集转换成Map
@@ -150,7 +150,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 受影响结果数
 	 * @date 2014年12月9日下午3:20:27
 	 */
-	public int deleteById(String id);
+	public int deleteById(Integer id);
 
 	/**
 	 * 删除所有
@@ -184,6 +184,6 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @param idList 批量删除ID列表
 	 * @date 2014年12月9日下午3:24:26
 	 */
-	public void deleteByIdInBatch(List<String> idList);
+	public void deleteByIdInBatch(List<Integer> idList);
 
 }

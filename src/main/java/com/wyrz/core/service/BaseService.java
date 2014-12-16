@@ -31,7 +31,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @return 结果对象，如果未找到返回null
 	 * @date 2014年12月9日下午4:40:51
 	 */
-	public <V extends T> V queryById(String id);
+	public <V extends T> V queryById(Integer id);
 
 	/**
 	 * 查询对象列表
@@ -66,7 +66,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @return
 	 * @date 2014年12月9日下午4:54:34
 	 */
-	public <V extends T> List<V> queryByIdList(List<String> idList);
+	public <V extends T> List<V> queryByIdList(List<Integer> idList);
 
 	/**
 	 * 查询所有记录列表
@@ -129,7 +129,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @return 受影响结果数
 	 * @date 2014年12月9日下午4:58:08
 	 */
-	public int deleteById(String id);
+	public int deleteById(Integer id);
 
 	/**
 	 * 删除所有
@@ -163,7 +163,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @param idList 批量删除ID列表
 	 * @date 2014年12月9日下午4:59:32
 	 */
-	public void deleteByIdInBatch(List<String> idList);
+	public void deleteByIdInBatch(List<Integer> idList);
 
 	/**
 	 * 批量插入，如果为空列表则直接返回

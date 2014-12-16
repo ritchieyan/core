@@ -33,7 +33,7 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 	}
 
 	@Override
-	public <V extends T> V queryById(String id) {
+	public <V extends T> V queryById(Integer id) {
 		return getBaseDao().selectById(id);
 	}
 
@@ -58,7 +58,7 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 	}
 
 	@Override
-	public <V extends T> List<V> queryByIdList(List<String> idList) {
+	public <V extends T> List<V> queryByIdList(List<Integer> idList) {
 		return this.getBaseDao().selectByIdList(idList);
 	}
 
@@ -88,7 +88,7 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 	}
 
 	@Override
-	public int deleteById(String id) {
+	public int deleteById(Integer id) {
 		return getBaseDao().deleteById(id);
 	}
 
@@ -108,7 +108,7 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 	}
 
 	@Override
-	public void deleteByIdInBatch(List<String> idList) {
+	public void deleteByIdInBatch(List<Integer> idList) {
 		getBaseDao().deleteByIdInBatch(idList);
 	}
 

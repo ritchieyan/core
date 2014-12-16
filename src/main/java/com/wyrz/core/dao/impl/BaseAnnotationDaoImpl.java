@@ -3,9 +3,9 @@ package com.wyrz.core.dao.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +24,13 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	/**
 	 * 只写SqlSession
 	 */
-	@Autowired
-	@Qualifier("writableSQLSession")
+	@Resource(name = "writableSQLSession")
 	protected SqlSession writableSQLSession;
 
 	/**
 	 * 只读SqlSession
 	 */
-	@Autowired
-	@Qualifier("readonlySQLSession")
+	@Resource(name = "readonlySQLSession")
 	protected SqlSession readonlySQLSession;
 
 	/**
@@ -42,10 +40,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	 * @return
 	 * @date 2014年12月13日上午11:35:28
 	 */
-	@SuppressWarnings("unchecked")
-	protected BaseMapper<T> getWritableMapper() {
-		return writableSQLSession.getMapper(this.getMapper().getClass());
-	}
+	protected abstract BaseMapper<T> getWritableMapper();
 
 	/**
 	 * 获取ReadonlyMapper实例
@@ -54,10 +49,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	 * @return
 	 * @date 2014年12月13日上午11:35:28
 	 */
-	@SuppressWarnings("unchecked")
-	protected BaseMapper<T> getReadonlyMapper() {
-		return readonlySQLSession.getMapper(this.getMapper().getClass());
-	}
+	protected abstract BaseMapper<T> getReadonlyMapper();
 
 	/**
 	 * 获取Mapper接口
@@ -66,7 +58,6 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	 * @return
 	 * @date 2014年12月13日上午11:56:54
 	 */
-	protected abstract BaseMapper<T> getMapper();
 
 	@Override
 	public <V extends T> V selectOne(T query) {
@@ -74,7 +65,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	}
 
 	@Override
-	public <V extends T> V selectById(String id) {
+	public <V extends T> V selectById(Integer id) {
 		return this.getReadonlyMapper().selectById(id);
 	}
 
@@ -99,7 +90,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	}
 
 	@Override
-	public <V extends T> List<V> selectByIdList(List<String> idList) {
+	public <V extends T> List<V> selectByIdList(List<Integer> idList) {
 		return this.getReadonlyMapper().selectByIdList(idList);
 	}
 
@@ -139,7 +130,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	}
 
 	@Override
-	public int deleteById(String id) {
+	public int deleteById(Integer id) {
 		return this.getWritableMapper().deleteById(id);
 	}
 
@@ -160,7 +151,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 
 	@Override
 	@Transactional
-	public void deleteByIdInBatch(List<String> idList) {
+	public void deleteByIdInBatch(List<Integer> idList) {
 		this.getWritableMapper().deleteByIdInBatch(idList);
 	}
 

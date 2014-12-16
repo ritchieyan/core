@@ -107,9 +107,9 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	}
 
 	@Override
-	public <V extends T> V selectById(String id) {
+	public <V extends T> V selectById(Integer id) {
 		try {
-			Assert.hasText(id);
+			Assert.notNull(id);
 			return this.readonlySQLSession.selectOne(getSqlName(SqlId.SQL_SELECT_BY_ID), id);
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据ID查询对象出错！语句：%s", getSqlName(SqlId.SQL_SELECT_BY_ID)), e);
@@ -155,7 +155,7 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	}
 
 	@Override
-	public <V extends T> List<V> selectByIdList(List<String> idList) {
+	public <V extends T> List<V> selectByIdList(List<Integer> idList) {
 		try {
 			if (CollectionUtils.isEmpty(idList)) {
 				return null;
@@ -252,9 +252,9 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	}
 
 	@Override
-	public int deleteById(String id) {
+	public int deleteById(Integer id) {
 		try {
-			Assert.hasText(id);
+			Assert.notNull(id);
 			return this.writableSQLSession.delete(getSqlName(SqlId.SQL_DELETE_BY_ID), id);
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据ID删除对象出错！语句：%s", getSqlName(SqlId.SQL_DELETE_BY_ID)), e);
@@ -274,7 +274,7 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	public int updateById(T entity) {
 		try {
 			Assert.notNull(entity);
-//			Assert.hasText(entity.getId());
+			// Assert.hasText(entity.getId());
 			Assert.notNull(entity.getId());
 			return this.writableSQLSession.update(getSqlName(SqlId.SQL_UPDATE_BY_ID), entity);
 		} catch (Exception e) {
@@ -286,7 +286,7 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	public int updateByIdSelective(T entity) {
 		try {
 			Assert.notNull(entity);
-//			Assert.hasText(entity.getId());
+			// Assert.hasText(entity.getId());
 			Assert.notNull(entity.getId());
 			return this.writableSQLSession.update(getSqlName(SqlId.SQL_UPDATE_BY_ID_SELECTIVE), entity);
 		} catch (Exception e) {
@@ -297,11 +297,11 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 
 	@Override
 	@Transactional
-	public void deleteByIdInBatch(List<String> idList) {
+	public void deleteByIdInBatch(List<Integer> idList) {
 		if (idList == null || idList.isEmpty()) {
 			return;
 		}
-		for (String id : idList) {
+		for (Integer id : idList) {
 			this.deleteById(id);
 		}
 

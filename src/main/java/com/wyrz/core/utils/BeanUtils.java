@@ -22,6 +22,7 @@ public class BeanUtils {
 	 * @return 若给定对象为null则返回size=0的map对象
 	 * @date 2014年12月9日下午3:47:46
 	 */
+	@SuppressWarnings("unchecked")
 	public static Map<String, Object> toMap(Object obj) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (obj == null) {
