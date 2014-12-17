@@ -5,7 +5,8 @@ package com.wyrz.core.web.demain;
  */
 public class JQueryDataTableParam {
 
-	// Request sequence number sent by DataTable, same value must be returned in response
+	// Request sequence number sent by DataTable, same value must be returned in
+	// response
 	private String sEcho;
 
 	// Text used for filtering
@@ -24,10 +25,10 @@ public class JQueryDataTableParam {
 	private int iSortingCols;
 
 	// Index of the column that is used for sorting
-	private int iSortColumnIndex;
+	// private int iSortColumnIndex;
 
 	// Sorting direction "asc" or "desc"
-	private String sSortDirection;
+	// private String sSortDirection;
 
 	// Comma separated list of column names
 	private String sColumns;
@@ -78,22 +79,6 @@ public class JQueryDataTableParam {
 
 	public void setiSortingCols(int iSortingCols) {
 		this.iSortingCols = iSortingCols;
-	}
-
-	public int getiSortColumnIndex() {
-		return iSortColumnIndex;
-	}
-
-	public void setiSortColumnIndex(int iSortColumnIndex) {
-		this.iSortColumnIndex = iSortColumnIndex;
-	}
-
-	public String getsSortDirection() {
-		return sSortDirection;
-	}
-
-	public void setsSortDirection(String sSortDirection) {
-		this.sSortDirection = sSortDirection;
 	}
 
 	public String getsColumns() {
