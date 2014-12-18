@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -15,6 +16,8 @@ import com.wyrz.core.dao.BaseDao;
 import com.wyrz.core.dao.demain.Identifiable;
 import com.wyrz.core.exception.DaoException;
 import com.wyrz.core.mapper.BaseMapper;
+import com.wyrz.core.utils.BeanUtils;
+import com.wyrz.core.utils.QueryParamsCreator;
 
 /**
  * 注解方式Dao的实现类
@@ -35,6 +38,9 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	 */
 	@Resource(name = "readonlySQLSession")
 	protected SqlSession readonlySQLSession;
+
+	@Autowired
+	private QueryParamsCreator<T> queryParamsCreator;
 
 	/**
 	 * 获取WritableMapper实例
@@ -58,7 +64,8 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	public <V extends T> V selectOne(T query) {
 		try {
 			Assert.notNull(query);
-			return this.getReadonlyMapper().selectOne(query);
+			Map<String, Object> params = BeanUtils.toMap(query);
+			return this.getReadonlyMapper().selectOne(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询一条记录出错！"), e);
 		}
@@ -86,7 +93,8 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	@Override
 	public List<String> selectIdList(T query) {
 		try {
-			return this.getReadonlyMapper().selectIdList(query);
+			Map<String, Object> params = BeanUtils.toMap(query);
+			return this.getReadonlyMapper().selectIdList(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("条件查询ID号列表出错！"), e);
 		}
@@ -95,8 +103,8 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	@Override
 	public <V extends T> List<V> selectList(T query) {
 		try {
-			Assert.notNull(query);
-			return this.getReadonlyMapper().selectList(query);
+			Map<String, Object> params = BeanUtils.toMap(query);
+			return this.getReadonlyMapper().selectList(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询对象列表出错！"), e);
 		}
@@ -127,16 +135,31 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey) {
 		try {
 			Assert.notNull(mapKey, "[mapKey] - must not be null!");
-			return this.getReadonlyMapper().selectMap(query, mapKey);
+			Map<String, Object> params = BeanUtils.toMap(query);
+			params.put("mapKey", mapKey);
+			return this.getReadonlyMapper().selectMap(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询对象Map时出错！"), e);
 		}
 	}
 
+	/**
+	 * 获取分页查询参数
+	 * 
+	 * @author Ritchieyan
+	 * @param query 查询对象
+	 * @param pageable 分页对象
+	 * @return Map 查询参数
+	 * @date 2014年12月13日下午9:31:19
+	 */
+	protected Map<String, Object> getParams(T query, Pageable pageable) {
+		return this.queryParamsCreator.create(query, pageable);
+	}
+
 	@Override
 	public <V extends T> List<V> selectList(T query, Pageable pageable) {
 		try {
-			return this.getReadonlyMapper().selectList(query, pageable);
+			return this.getReadonlyMapper().selectList(getParams(query, pageable));
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据分页对象查询列表出错！"), e);
 		}
@@ -145,7 +168,9 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	@Override
 	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable) {
 		try {
-			return this.getReadonlyMapper().selectMap(query, mapKey, pageable);
+			Map<String, Object> params = getParams(query, pageable);
+			params.put("mapKey", mapKey);
+			return this.getReadonlyMapper().selectMap(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据分页对象查询列表出错！"), e);
 		}
@@ -163,7 +188,8 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	@Override
 	public Long selectCount(T query) {
 		try {
-			return this.getReadonlyMapper().selectCount(query);
+			Map<String, Object> params = BeanUtils.toMap(query);
+			return this.getReadonlyMapper().selectCount(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询对象总数出错！"), e);
 		}
@@ -183,7 +209,8 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	public int delete(T query) {
 		try {
 			Assert.notNull(query);
-			return this.getWritableMapper().delete(query);
+			Map<String, Object> params = BeanUtils.toMap(query);
+			return this.getWritableMapper().delete(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("删除对象出错！"), e);
 		}
