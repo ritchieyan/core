@@ -1,7 +1,6 @@
 package com.wyrz.core.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +47,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @return ID号列表
 	 * @date 2014年12月9日下午4:52:11
 	 */
-	public List<String> queryAllId();
+	public List<Integer> queryAllId();
 
 	/**
 	 * 条件查询ID号列表
@@ -57,7 +56,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @return ID号列表
 	 * @date 2014年12月9日下午4:54:14
 	 */
-	public List<String> queryIdList(T query);
+	public List<Integer> queryIdList(T query);
 
 	/**
 	 * 查询指定ID列表的记录
@@ -86,7 +85,7 @@ public interface BaseService<T extends Identifiable> {
 	 * @return Map 包含key属性值的Map对象
 	 * @date 2014年12月9日下午4:55:55
 	 */
-	public <K, V extends T> Map<K, V> queryMap(T query, String mapKey);
+	// public <K, V extends T> Map<K, V> queryMap(T query, String mapKey);
 
 	/**
 	 * 查询总记录数
@@ -212,5 +211,5 @@ public interface BaseService<T extends Identifiable> {
 	 * @return Map containing key pair data. 
 	 * @date 2014年12月9日下午5:04:13
 	 */
-	public <K, V extends T> Map<K, V> queryMap(T query, String mapKey, Pageable pageable);
+	// public <K, V extends T> Map<K, V> queryMap(T query, String mapKey, Pageable pageable);
 }

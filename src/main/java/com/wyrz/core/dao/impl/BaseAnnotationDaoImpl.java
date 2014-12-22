@@ -49,7 +49,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	 * @return
 	 * @date 2014年12月13日上午11:35:28
 	 */
-	protected abstract BaseMapper<T> getWritableMapper();
+	protected abstract <I extends BaseMapper<T, ? extends T>> I getWritableMapper();
 
 	/**
 	 * 获取ReadonlyMapper实例
@@ -58,31 +58,33 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	 * @return
 	 * @date 2014年12月13日上午11:35:28
 	 */
-	protected abstract BaseMapper<T> getReadonlyMapper();
+	protected abstract <I extends BaseMapper<T, ? extends T>> I getReadonlyMapper();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends T> V selectOne(T query) {
 		try {
 			Assert.notNull(query);
 			Map<String, Object> params = BeanUtils.toMap(query);
-			return this.getReadonlyMapper().selectOne(params);
+			return (V) this.getReadonlyMapper().selectOne(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询一条记录出错！"), e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends T> V selectById(Integer id) {
 		try {
 			Assert.notNull(id);
-			return this.getReadonlyMapper().selectById(id);
+			return (V) this.getReadonlyMapper().selectById(id);
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据ID查询对象出错！"), e);
 		}
 	}
 
 	@Override
-	public List<String> selectAllId() {
+	public List<Integer> selectAllId() {
 		try {
 			return this.getReadonlyMapper().selectAllId();
 		} catch (Exception e) {
@@ -91,7 +93,7 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 	}
 
 	@Override
-	public List<String> selectIdList(T query) {
+	public List<Integer> selectIdList(T query) {
 		try {
 			Map<String, Object> params = BeanUtils.toMap(query);
 			return this.getReadonlyMapper().selectIdList(params);
@@ -100,48 +102,52 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends T> List<V> selectList(T query) {
 		try {
 			Map<String, Object> params = BeanUtils.toMap(query);
-			return this.getReadonlyMapper().selectList(params);
+			return (List<V>) this.getReadonlyMapper().selectList(params);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询对象列表出错！"), e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends T> List<V> selectAll() {
 		try {
-			return this.getReadonlyMapper().selectAll();
+			return (List<V>) this.getReadonlyMapper().selectAll();
 		} catch (Exception e) {
-			throw new DaoException(String.format("查询所有对象列表出错！语句：%s"), e);
+			throw new DaoException(String.format("查询所有对象列表出错！"), e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends T> List<V> selectByIdList(List<Integer> idList) {
 		try {
 			if (CollectionUtils.isEmpty(idList)) {
 				return null;
 			}
-			return this.getReadonlyMapper().selectByIdList(idList);
+			return (List<V>) this.getReadonlyMapper().selectByIdList(idList);
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询指定ID的记录对象列表出错！"), e);
 		}
 	}
 
-	@Override
-	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey) {
-		try {
-			Assert.notNull(mapKey, "[mapKey] - must not be null!");
-			Map<String, Object> params = BeanUtils.toMap(query);
-			params.put("mapKey", mapKey);
-			return this.getReadonlyMapper().selectMap(params);
-		} catch (Exception e) {
-			throw new DaoException(String.format("查询对象Map时出错！"), e);
-		}
-	}
+	// @Override
+	// public <K, V extends T> Map<K, V> selectMap(T query, String mapKey) {
+	// try {
+	// Assert.notNull(mapKey, "[mapKey] - must not be null!");
+	// Map<String, Object> params = BeanUtils.toMap(query);
+	// params.put("mapKey", mapKey);
+	// return this.getReadonlyMapper().selectMap(params);
+	// } catch (Exception e) {
+	// throw new DaoException(String.format("查询对象Map时出错！"), e);
+	// }
+	// return null;
+	// }
 
 	/**
 	 * 获取分页查询参数
@@ -156,30 +162,32 @@ public abstract class BaseAnnotationDaoImpl<T extends Identifiable> implements B
 		return this.queryParamsCreator.create(query, pageable);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends T> List<V> selectList(T query, Pageable pageable) {
 		try {
-			return this.getReadonlyMapper().selectList(getParams(query, pageable));
+			return (List<V>) this.getReadonlyMapper().selectList(getParams(query, pageable));
 		} catch (Exception e) {
 			throw new DaoException(String.format("根据分页对象查询列表出错！"), e);
 		}
 	}
 
-	@Override
-	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable) {
-		try {
-			Map<String, Object> params = getParams(query, pageable);
-			params.put("mapKey", mapKey);
-			return this.getReadonlyMapper().selectMap(params);
-		} catch (Exception e) {
-			throw new DaoException(String.format("根据分页对象查询列表出错！"), e);
-		}
-	}
+	// @Override
+	// public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable) {
+	// try {
+	// Map<String, Object> params = getParams(query, pageable);
+	// params.put("mapKey", mapKey);
+	// return this.getReadonlyMapper().selectMap(params);
+	// } catch (Exception e) {
+	// throw new DaoException(String.format("根据分页对象查询列表出错！"), e);
+	// }
+	// return null;
+	// }
 
 	@Override
 	public Long selectCount() {
 		try {
-			return this.getReadonlyMapper().selectCount();
+			return this.getReadonlyMapper().selectAllCount();
 		} catch (Exception e) {
 			throw new DaoException(String.format("查询对象总数出错！"), e);
 		}

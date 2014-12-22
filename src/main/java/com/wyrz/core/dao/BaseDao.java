@@ -1,7 +1,6 @@
 package com.wyrz.core.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 
@@ -38,7 +37,7 @@ public interface BaseDao<T extends Identifiable> {
 	 * @return ID号列表
 	 * @date 2014年12月9日下午2:28:39
 	 */
-	public List<String> selectAllId();
+	public List<Integer> selectAllId();
 
 	/**
 	 * 条件查询ID号列表
@@ -47,7 +46,7 @@ public interface BaseDao<T extends Identifiable> {
 	 * @return ID号列表
 	 * @date 2014年12月9日下午2:29:59
 	 */
-	public List<String> selectIdList(T query);
+	public List<Integer> selectIdList(T query);
 
 	/**
 	 *  查询对象列表
@@ -84,7 +83,7 @@ public interface BaseDao<T extends Identifiable> {
 	 * @return Map 包含key属性值的Map对象
 	 * @date 2014年12月9日下午2:37:06
 	 */
-	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey);
+	// public <K, V extends T> Map<K, V> selectMap(T query, String mapKey);
 
 	/**
 	 * <pre>查询对象列表，注意：在给定非null的分页对象时该方法自动设置分页总记录数,如果query和pageable同时为null则查询所有</pre>
@@ -107,7 +106,7 @@ public interface BaseDao<T extends Identifiable> {
 	 * @return Map containing key pair data. 
 	 * @date 2014年12月9日下午3:16:12
 	 */
-	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable);
+	// public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable);
 
 	/**
 	 * 查询总记录数

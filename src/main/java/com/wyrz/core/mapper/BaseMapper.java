@@ -10,7 +10,7 @@ import com.wyrz.core.dao.demain.Identifiable;
  * @author Ritchieyan
  * @date 2014年12月13日上午10:55:07
  */
-public interface BaseMapper<T extends Identifiable> {
+public interface BaseMapper<T extends Identifiable, V extends T> {
 
 	/**
 	 * 查询一个对象
@@ -19,7 +19,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return Mapper中映射的对象，继承自T对象，一般是Vo对象
 	 * @date 2014年12月9日下午2:26:14
 	 */
-	public <V extends T> V selectOne(Map<String, Object> params);
+	public V selectOne(Map<String, Object> params);
 
 	/**
 	 * 通过Id查询一个对象
@@ -28,7 +28,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 结果对象，如果未找到返回null
 	 * @date 2014年12月9日下午2:28:05
 	 */
-	public <V extends T> V selectById(Integer id);
+	public V selectById(Integer id);
 
 	/**
 	 * 查询所有记录ID号列表
@@ -36,7 +36,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return ID号列表
 	 * @date 2014年12月9日下午2:28:39
 	 */
-	public List<String> selectAllId();
+	public List<Integer> selectAllId();
 
 	/**
 	 * 条件查询ID号列表
@@ -45,7 +45,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return ID号列表
 	 * @date 2014年12月9日下午2:29:59
 	 */
-	public List<String> selectIdList(Map<String, Object> params);
+	public List<Integer> selectIdList(Map<String, Object> params);
 
 	/**
 	 *  查询对象列表
@@ -54,7 +54,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 结果对象列表
 	 * @date 2014年12月9日下午2:30:24
 	 */
-	public <V extends T> List<V> selectList(Map<String, Object> params);
+	public List<V> selectList(Map<String, Object> params);
 
 	/**
 	 * 查询所有记录列表
@@ -62,7 +62,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return List 结果列表
 	 * @date 2014年12月9日下午2:32:22
 	 */
-	public <V extends T> List<V> selectAll();
+	public List<V> selectAll();
 
 	/**
 	 * 查询给定ID号对应的记录列表
@@ -71,7 +71,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 结果列表
 	 * @date 2014年12月9日下午2:34:54
 	 */
-	public <V extends T> List<V> selectByIdList(List<Integer> idList);
+	public List<V> selectByIdList(List<Integer> idList);
 
 	/**
 	 * 根据结果集中的一列作为key，将结果集转换成Map
@@ -82,7 +82,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return Map 包含key属性值的Map对象
 	 * @date 2014年12月9日下午2:37:06
 	 */
-	public <K, V extends T> Map<K, V> selectMap(Map<String, Object> params);
+	// public <K, V extends T> Map<K, V> selectMap(Map<String, Object> params);
 
 	/**
 	 * <pre>查询对象列表，注意：在给定非null的分页对象时该方法自动设置分页总记录数,如果query和pageable同时为null则查询所有</pre>
@@ -92,7 +92,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 根据分页对象查询的分页结果列表
 	 * @date 2014年12月9日下午2:58:20
 	 */
-	public <V extends T> List<V> selectListToPage(Map<String, Object> params);
+	public List<V> selectListToPage(Map<String, Object> params);
 
 	/**
 	 * 根据结果集中的一列作为key，将结果集转换成Map
@@ -105,7 +105,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return Map containing key pair data. 
 	 * @date 2014年12月9日下午3:16:12
 	 */
-	public <K, V extends T> Map<K, V> selectMapToPage(Map<String, Object> params);
+	// public <K, V extends T> Map<K, V> selectMapToPage(Map<String, Object> params);
 
 	/**
 	 * 查询总记录数
@@ -113,7 +113,7 @@ public interface BaseMapper<T extends Identifiable> {
 	 * @return 记录总数
 	 * @date 2014年12月9日下午3:17:25
 	 */
-	public Long selectCount();
+	public Long selectAllCount();
 
 	/**
 	 * 查询记录数

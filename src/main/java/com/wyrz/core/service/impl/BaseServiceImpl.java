@@ -1,7 +1,6 @@
 package com.wyrz.core.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.data.domain.Page;
@@ -48,12 +47,12 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 	}
 
 	@Override
-	public List<String> queryAllId() {
+	public List<Integer> queryAllId() {
 		return this.getBaseDao().selectAllId();
 	}
 
 	@Override
-	public List<String> queryIdList(T query) {
+	public List<Integer> queryIdList(T query) {
 		return this.getBaseDao().selectIdList(query);
 	}
 
@@ -62,10 +61,10 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 		return this.getBaseDao().selectByIdList(idList);
 	}
 
-	@Override
-	public <K, V extends T> Map<K, V> queryMap(T query, String mapKey) {
-		return getBaseDao().selectMap(query, mapKey);
-	}
+	// @Override
+	// public <K, V extends T> Map<K, V> queryMap(T query, String mapKey) {
+	// return getBaseDao().selectMap(query, mapKey);
+	// }
 
 	@Override
 	public Long queryCount() {
@@ -149,9 +148,9 @@ public abstract class BaseServiceImpl<T extends Identifiable> implements BaseSer
 		}
 	}
 
-	@Override
-	public <K, V extends T> Map<K, V> queryMap(T query, String mapKey, Pageable pageable) {
-		return getBaseDao().selectMap(query, mapKey, pageable);
-	}
+	// @Override
+	// public <K, V extends T> Map<K, V> queryMap(T query, String mapKey, Pageable pageable) {
+	// return getBaseDao().selectMap(query, mapKey, pageable);
+	// }
 
 }

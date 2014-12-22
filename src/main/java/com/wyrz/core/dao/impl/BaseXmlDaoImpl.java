@@ -117,7 +117,7 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	}
 
 	@Override
-	public List<String> selectAllId() {
+	public List<Integer> selectAllId() {
 		try {
 			return this.readonlySQLSession.selectList(getSqlName(SqlId.SQL_SELECT_ALL_ID));
 		} catch (Exception e) {
@@ -126,7 +126,7 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 	}
 
 	@Override
-	public List<String> selectIdList(T query) {
+	public List<Integer> selectIdList(T query) {
 		try {
 			Map<String, Object> params = BeanUtils.toMap(query);
 			return this.readonlySQLSession.selectList(getSqlName(SqlId.SQL_SELECT_ID_LIST), params);
@@ -166,16 +166,16 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 		}
 	}
 
-	@Override
-	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey) {
-		try {
-			Assert.notNull(mapKey, "[mapKey] - must not be null!");
-			Map<String, Object> params = BeanUtils.toMap(query);
-			return this.readonlySQLSession.selectMap(getSqlName(SqlId.SQL_SELECT), params, mapKey);
-		} catch (Exception e) {
-			throw new DaoException(String.format("查询对象Map时出错！语句：%s", getSqlName(SqlId.SQL_SELECT)), e);
-		}
-	}
+	// @Override
+	// public <K, V extends T> Map<K, V> selectMap(T query, String mapKey) {
+	// try {
+	// Assert.notNull(mapKey, "[mapKey] - must not be null!");
+	// Map<String, Object> params = BeanUtils.toMap(query);
+	// return this.readonlySQLSession.selectMap(getSqlName(SqlId.SQL_SELECT), params, mapKey);
+	// } catch (Exception e) {
+	// throw new DaoException(String.format("查询对象Map时出错！语句：%s", getSqlName(SqlId.SQL_SELECT)), e);
+	// }
+	// }
 
 	/**
 	 * 获取分页查询参数
@@ -199,14 +199,14 @@ public abstract class BaseXmlDaoImpl<T extends Identifiable> implements BaseDao<
 		}
 	}
 
-	@Override
-	public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable) {
-		try {
-			return this.readonlySQLSession.selectMap(getSqlName(SqlId.SQL_SELECT), getParams(query, pageable), mapKey);
-		} catch (Exception e) {
-			throw new DaoException(String.format("根据分页对象查询列表出错！语句:%s", getSqlName(SqlId.SQL_SELECT)), e);
-		}
-	}
+	// @Override
+	// public <K, V extends T> Map<K, V> selectMap(T query, String mapKey, Pageable pageable) {
+	// try {
+	// return this.readonlySQLSession.selectMap(getSqlName(SqlId.SQL_SELECT), getParams(query, pageable), mapKey);
+	// } catch (Exception e) {
+	// throw new DaoException(String.format("根据分页对象查询列表出错！语句:%s", getSqlName(SqlId.SQL_SELECT)), e);
+	// }
+	// }
 
 	@Override
 	public Long selectCount() {
